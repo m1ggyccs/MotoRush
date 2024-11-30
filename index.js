@@ -132,7 +132,7 @@ app.post('/login', function(req, res) {
     const { username, password } = req.body;
 
     // Validate the user credentials (this is just an example, adapt it to your needs)
-    if (username === 'admin' && password === '123') {
+    if (username === 'uadmin' && password === '2%A90jW') {
         req.session.loggedIn = true; // Set loggedIn session to true
         res.redirect('/productlist');
     } else {
