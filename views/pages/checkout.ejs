@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>MotoRush</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- owl stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <title>Checkout - Complete Your Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .checkout-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .cart-preview {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #f8f8f8;
+        }
+
+        .cart-preview h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: #555;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .cart-item-price, .cart-item-quantity {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .checkout-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .checkout-form label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .checkout-form input,
+        .checkout-form textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .checkout-form textarea {
+            resize: vertical;
+        }
+
+        .checkout-form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkout-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 768px) {
+            .checkout-container {
+                margin: 20px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- header --> <%- include('../partials/header') %> <!-- end header -->
+
+    <div class="checkout-container">
+        <h1 class="checkout-title">Checkout - Complete Your Order</h1>
+
+        <div class="cart-preview">
+            <h3>Your Cart</h3>
+            <% if(cart && cart.length > 0) { %>
+                <% let totalPrice = 0; %> <!-- Initialize totalPrice to accumulate the sum -->
+                <% cart.forEach(function(product) { %>
+                    <div class="cart-item">
+                        <div class="cart-item-details">
+                            <p class="cart-item-name"><%= product.product_name %></p>
+                            <div class="cart-item-info">
+                                <span class="cart-item-price">₱<%= product.product_saleprice || product.product_price %></span>
+                                <span class="cart-item-quantity">Qty: <%= product.product_quantity %></span>
+                            </div>
+                        </div>
+                        <img src="/images/<%= product.product_image %>" alt="<%= product.product_name %>">
+                        <form action="/remove-from-cart" method="POST" style="margin-left: auto;">
+                            <input type="hidden" name="id" value="<%= product.product_id %>">
+                            <button type="submit" style="background: none; border: none; color: #d9534f; cursor: pointer;">Remove</button>
+                        </form>
+                    </div>
+                    <% 
+                        // Calculate subtotal for each product
+                        let subtotal = (product.product_saleprice || product.product_price) * product.product_quantity;
+                        totalPrice += subtotal; // Add to total price
+                    %>
+                <% }) %>
+                <div class="cart-summary">
+                    <div class="total-amount">
+                        <h3>Total: ₱<%= totalPrice.toFixed(2) %></h3> <!-- Display the total price -->
+                    </div>
+                </div>
+            <% } else { %>
+                <p>Your cart is empty.</p>
+            <% } %>
+        </div>
+
+        <!-- Checkout Form -->
+        <form action="/place-order" method="POST" class="checkout-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email address">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <textarea id="address" name="address" rows="4" required placeholder="Enter your shipping address"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Place Order">
+            </div>
+        </form>
+    </div>
+
+    <!-- footer --> <%- include('../partials/footer') %> <!-- end footer -->
+
+        <!-- Javascript files-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/jquery-3.0.0.min.js"></script>
+        <script src="js/plugin.js"></script>
+        <!-- sidebar -->
+        <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="js/custom.js"></script>
+        <!-- javascript -->
+        <script src="js/owl.carousel.js"></script>
+        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $(".fancybox").fancybox({
+                    openEffect: "none",
+                    closeEffect: "none"
+                });
+    
+                $(".zoom").hover(function() {
+    
+                    $(this).addClass('transition');
+                }, function() {
+    
+                    $(this).removeClass('transition');
+                });
+            });
+        </script>    
+</body>
+</html>

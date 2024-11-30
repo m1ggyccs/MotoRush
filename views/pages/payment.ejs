@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>MotoRush</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- owl stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+      <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .confirmation-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+        .confirmation-icon {
+            font-size: 4rem;
+            color: #28a745;
+        }
+        .confirmation-header {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #343a40;
+            margin-top: 15px;
+        }
+        .confirmation-text {
+            font-size: 1rem;
+            color: #6c757d;
+            margin: 15px 0;
+        }
+        .confirmation-details {
+            background: #f1f3f5;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .confirmation-details h5 {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        .confirmation-details p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #495057;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<!-- body -->
+
+<body class="main-layout ">
+
+    <!-- header --> <%- include('../partials/header') %> <!-- end header -->
+     
+    <div class="confirmation-container">
+        <div class="confirmation-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="confirmation-header">Payment Successful!</div>
+        <div class="confirmation-text">
+            Thank you for your purchase, <strong>{{name}}</strong>! Your payment has been successfully processed.
+        </div>
+
+        <div class="confirmation-details">
+            <h5>Order Summary</h5>
+            <p><strong>Order ID:</strong> #{{orderId}}</p>
+            <p><strong>Total Amount:</strong> ${{cost}}</p>
+            <p><strong>Payment Status:</strong> Paid</p>
+            <p><strong>Delivery Address:</strong> {{address}}</p>
+            <p><strong>Contact Information:</strong> {{email}}, {{phone}}</p>
+        </div>
+
+        <div class="button-container">
+            <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+    </div>
+
+    <!-- footer --> <%- include('../partials/footer') %> <!-- end footer -->
+
+    <!-- Javascript files-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- javascript -->
+    <script src="js/owl.carousel.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".fancybox").fancybox({
+                openEffect: "none",
+                closeEffect: "none"
+            });
+
+            $(".zoom").hover(function() {
+
+                $(this).addClass('transition');
+            }, function() {
+
+                $(this).removeClass('transition');
+            });
+        });
+    </script>
+</body>
+
+</html>

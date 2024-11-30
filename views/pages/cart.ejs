@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart</title>
+    <!-- Basic meta and CSS includes here -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <!-- Add any other necessary CSS files here -->
+    <style>
+        /* Cart styles */
+        .cart-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .remove-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .checkout-btn {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- header --> <%- include('../partials/header') %> <!-- end header -->
+
+    <div class="cart-container">
+        <h1 class="cart-title">Your Shopping Cart</h1>
+
+        <!-- Cart Table -->
+        <div class="cart-table-container">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(cart && cart.length > 0) { %>
+                        <% cart.forEach(function(product) { %>
+                            <tr>
+                                <td class="product-name"><%= product.product_name %></td>
+                                <td class="product-image">
+                                    <img src="/images/<%= product.product_image %>" alt="<%= product.product_name %>" class="product-img" />
+                                </td>
+                                <td class="price">$<%= product.product_saleprice || product.product_price %></td>
+                                <td class="quantity">
+                                    <!-- Allow editing the quantity -->
+                                    <input type="number" value="<%= product.product_quantity %>" min="1" data-id="<%= product.product_id %>" class="quantity-input" />
+                                </td>
+                                <td class="subtotal">
+                                    $<%= (product.product_saleprice || product.product_price) * product.product_quantity %>
+                                </td>
+                                <td class="remove">
+                                    <form action="/remove-from-cart" method="POST">
+                                        <input type="hidden" name="id" value="<%= product.product_id %>">
+                                        <button type="submit" class="remove-btn">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6">Your cart is empty.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+            <div class="total-amount">
+                <h3>Total: $<%= total || 0 %></h3>
+            </div>
+
+            <!-- Checkout Button -->
+            <form method="get" action="/checkout">
+                <button class="checkout-btn">Proceed to Checkout</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- footer --> <%- include('../partials/footer') %> <!-- end footer -->
+
+    <!-- Add the necessary JS files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Event handler for quantity changes
+            $(".quantity-input").on("change", function() {
+    var productId = $(this).data("id");  // Get product ID from data-id
+    var quantity = $(this).val();  // Get the updated quantity from the input field
+
+    // Send the updated quantity to the server using AJAX
+    $.ajax({
+        url: '/update-cart',  // Route to handle the quantity update
+        method: 'POST',
+        data: { product_id: productId, quantity: quantity },
+        success: function(response) {
+            if (response.success) {
+                location.reload();  // Reload the page to reflect changes
+            }
+        },
+        error: function(error) {
+            alert('Error updating quantity: ' + error.responseJSON.message);  // Display error message
+        }
+    });
+});
+        });
+    </script>
+</body>
+</html>
