@@ -132,7 +132,7 @@ app.post('/login', function(req, res) {
     const { username, password } = req.body;
 
     // Validate the user credentials (this is just an example, adapt it to your needs)
-    if (username === 'uadmin' && password === '2%A90jW') {
+    if (username === 'admin' && password === '123') {
         req.session.loggedIn = true; // Set loggedIn session to true
         res.redirect('/productlist');
     } else {
@@ -395,7 +395,7 @@ app.get("/product", ensureAuthenticated, (req, res) => {
         console.error("Error inserting data:", err.message);
         return res.status(500).send("Error adding product to the database.");
       }
-      res.send("Product added successfully!");
+      res.render('admin/productlist');
     });
   });
 
