@@ -88,13 +88,13 @@
                                 <td class="product-image">
                                     <img src="/images/<%= product.product_image %>" alt="<%= product.product_name %>" class="product-img" />
                                 </td>
-                                <td class="price">$<%= product.product_saleprice || product.product_price %></td>
+                                <td class="price">₱<%= product.product_saleprice || product.product_price %></td>
                                 <td class="quantity">
                                     <!-- Allow editing the quantity -->
                                     <input type="number" value="<%= product.product_quantity %>" min="1" data-id="<%= product.product_id %>" class="quantity-input" />
                                 </td>
                                 <td class="subtotal">
-                                    $<%= (product.product_saleprice || product.product_price) * product.product_quantity %>
+                                    ₱<%= (product.product_saleprice || product.product_price) * product.product_quantity %>
                                 </td>
                                 <td class="remove">
                                     <form action="/remove-from-cart" method="POST">
@@ -116,7 +116,7 @@
         <!-- Cart Summary -->
         <div class="cart-summary">
             <div class="total-amount">
-                <h3>Total: $<%= total || 0 %></h3>
+                <h3>Total: ₱<%= total || 0 %></h3>
             </div>
 
             <!-- Checkout Button -->
