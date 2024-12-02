@@ -391,14 +391,22 @@ app.get("/product", ensureAuthenticated, (req, res) => {
     ];
   
     db.query(sql, values, (err, result) => {
-      if (err) {
-        console.error("Error inserting data:", err.message);
-        return res.status(500).send("Error adding product to the database.");
-      }
-      res.render('admin/productlist');
+        if (err) {
+          console.error("Error inserting data:", err.message);
+          return res.status(500).send("Error adding product to the database.");
+        }
+    
+        // Fetch updated product list
+        db.query("SELECT * FROM products", (err, products) => {
+          if (err) {
+            console.error("Error fetching product list:", err.message);
+            return res.status(500).send("Error fetching updated product list.");
+          }
+    
+          res.render('admin/productlist', { products });
+        });
+      });
     });
-  });
-
 
 
 // Admin Routes and Controller to display products
