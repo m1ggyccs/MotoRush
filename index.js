@@ -312,7 +312,7 @@ app.post('/place-order', function(req, res) {
                     }
 
                     // Redirect to the payment page (or render a confirmation page)
-                    res.redirect('/payment');
+                    res.redirect(`/payment?orderId=${orderId}`);
                 }
             );
         }
@@ -329,12 +329,29 @@ app.get('/checkout', function(req,res){
 
 });
 
-// User's Confirme
+// User's Confirm
 app.get('/payment', function(req, res) {
-  var cart = req.session.cart;
-  var total = req.session.total;
+    const orderId = req.query.orderId; // Get orderId from the query parameter
 
-  res.render('pages/payment');
+    if (!orderId) {
+        return res.status(400).send("Order ID is required.");
+    }
+
+    const query = 'SELECT * FROM orders WHERE order_id = ?'; // Modify query to fetch the specific order
+    db.query(query, [orderId], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Database error');
+            return;
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('Order not found.');
+        }
+
+        // Render the payment page and pass the order details
+        res.render('pages/payment', { order: results[0] });
+    });
 });
 
 

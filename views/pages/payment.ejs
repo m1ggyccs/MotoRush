@@ -102,16 +102,17 @@
         </div>
         <div class="confirmation-header">Payment Successful!</div>
         <div class="confirmation-text">
-            Thank you for your purchase, <strong>{{name}}</strong>! Your payment has been successfully processed.
+            Thank you for your purchase, <strong><%= order.customer_name %></strong>! Your payment has been successfully processed.
         </div>
 
         <div class="confirmation-details">
             <h5>Order Summary</h5>
-            <p><strong>Order ID:</strong> #{{orderId}}</p>
-            <p><strong>Total Amount:</strong> ${{cost}}</p>
-            <p><strong>Payment Status:</strong> Paid</p>
-            <p><strong>Delivery Address:</strong> {{address}}</p>
-            <p><strong>Contact Information:</strong> {{email}}, {{phone}}</p>
+            <p><strong>Date of Order:</strong><%= order.order_date %></p>
+            <p><strong>Order ID:</strong> <%= order.order_id %></p>
+            <p><strong>Total Amount:</strong> <%= order.order_total %></p>
+            <p><strong>Payment Status:</strong> <%= order.order_status %></p>
+            <p><strong>Delivery Address:</strong><%= order.customer_address %></p>
+            <p><strong>Contact Information:</strong> <%= order.customer_name %>, <%= order.customer_phone %></p>
         </div>
 
         <div class="button-container">
