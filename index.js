@@ -7,7 +7,7 @@ var path = require('path');
 const port = 3000;
 var session = require('express-session');
 
-// Variables
+// Variable
 var app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
